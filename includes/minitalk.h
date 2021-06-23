@@ -13,6 +13,17 @@
 # define SIGACTION_ERR "Sigaction error.\n"
 # define MSG_ERR "Message transfer error.\n"
 
+typedef struct s_flag
+{
+	int len;
+	int len_bit;
+	char *str;
+	int str_bit;
+	int is_null;
+	int is_char;
+	int is_end;
+} t_flag;
+
 void handle_error(char *err_msg);
 
 #endif

@@ -6,13 +6,26 @@
 /*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:57:03 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/21 21:56:36 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/23 20:57:19 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-void	char_to_sig(char c, int bit, pid_t server)
+static void int_to_sig(int cnt, int bit, pid_t server)
+{
+	if (bit > 0)
+		int_to_sig(cnt / 2, bit - 1, server);
+	if ((cnt % 2) == 1)
+		if (kill(server, SIGUSR1) == -1)
+			handle_error(SIGNAL_ERR);
+	if ((cnt % 2) == 0)
+		if (kill(server, SIGUSR2) == -1)
+			handle_error(SIGNAL_ERR);
+	usleep(100);
+}
+
+static void	char_to_sig(char c, int bit, pid_t server)
 {
 	if (bit > 0)
 		char_to_sig(c / 2, bit - 1, server);
@@ -25,19 +38,22 @@ void	char_to_sig(char c, int bit, pid_t server)
 	usleep(100);
 }
 
-int		send_msg(char *msg, pid_t server)
+static int	send_msg(char *msg, pid_t server)
 {
 	int	i;
+	int cnt;
 
 	i = -1;
+	cnt = ft_strlen(msg);
 	if (!msg || server < 0)
 		return (-1);
+	int_to_sig(cnt, 31, server);
 	while (msg[++i] != '\0')
 		char_to_sig(msg[i], 7, server);
 	return (0);
 }
 
-void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
+static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 {
 	static int bit;
 
