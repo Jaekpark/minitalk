@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 13:58:49 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:20:13 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 18:33:43 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "../includes/minitalk_bonus.h"
 
 static void	print_pid(pid_t server)
 {
@@ -18,6 +18,15 @@ static void	print_pid(pid_t server)
 	ft_putstr_fd("Server PID : ", 1);
 	ft_putnbr_fd(server, 1);
 	write(1, "\n", 1);
+}
+
+static void handle_null(pid_t client)
+{
+	if ((kill(client, SIGUSR2)) == -1)
+		handle_error(SIGNAL_ERR1);
+	ft_putnbr_fd(client, 1);
+	ft_putstr_fd(" client say > ", 1);	
+	ft_putstr_fd("(null)\n", 1);
 }
 
 static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
@@ -29,7 +38,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 		return ;
 	if (is_start == 0 && signum == SIGUSR1)
 	{
-		ft_putstr_fd("(null)\n", 1);
+		handle_null(siginfo->si_pid);
 		return ;
 	}
 	if (is_start == 0)
@@ -40,7 +49,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 		parse_str(signum, &flag);
 	flag.total_bit++;
 	if (flag.total_bit == 32 + (flag.len * 8))
-		end_minitalk(&flag, &is_start);
+		end_minitalk(&flag, &is_start, siginfo);
 }
 
 int 		main(int argc, char **argv)

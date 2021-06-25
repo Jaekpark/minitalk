@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:57:03 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:14:51 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 18:33:53 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "../includes/minitalk_bonus.h"
 
 static void int_to_sig(int cnt, int bit, pid_t server)
 {
@@ -57,15 +57,16 @@ static int	send_msg(char *msg, pid_t server)
 		return (-1);
 	if (msg[0] == '\0')
 	{
+		print_client_msg(getpid(), cnt, 1);
 		if ((kill(server, SIGUSR1)) == -1)
 			handle_error(SIGNAL_ERR2);
 	}
 	else
 	{
+		print_client_msg(getpid(), cnt, 0);
 		int_to_sig(cnt, 31, server);
 		while (msg[++i] != '\0')
 			char_to_sig(msg[i], 7, server);
-		usleep(100);
 	}
 	return (0);
 }

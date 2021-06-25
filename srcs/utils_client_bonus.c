@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utils_client_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/21 21:32:41 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 16:42:03 by jaekpark         ###   ########.fr       */
+/*   Created: 2021/06/25 17:50:37 by jaekpark          #+#    #+#             */
+/*   Updated: 2021/06/25 18:33:32 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "../includes/minitalk_bonus.h"
 
-int		check_ascii(char *str)
+void	print_client_msg(pid_t client, int cnt, int is_null)
 {
-	int i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] > 127 || str[i] < 0)
-			return (-1);
-		i++;
-	}
-	return (1);
-}
-
-void	handle_error(char *err_msg)
-{
-	ft_putstr_fd(err_msg, 2);
-	exit(1);
+	ft_putnbr_fd(client, 1);
+	ft_putstr_fd(" client try to connect to server...\n", 1);
+	ft_putstr_fd("...attemping to send ", 1);
+	if (is_null == 0)
+		ft_putnbr_fd(cnt, 1);
+	else if (is_null == 1)
+		ft_putstr_fd("Only null", 1);
+	ft_putstr_fd(" characters.\n", 1);
+	usleep(1000);
 }

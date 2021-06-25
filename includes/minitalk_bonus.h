@@ -1,5 +1,5 @@
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 
 # include <signal.h>
 # include <unistd.h>
@@ -32,7 +32,8 @@ void	init_flag(t_flag *flag);
 void	start_minitalk(t_flag *flag, int *is_start);
 void	parse_len(int signum, t_flag *flag);
 void	parse_str(int signum, t_flag *flag);
-void	end_minitalk(t_flag *flag, int *is_start);
+void	end_minitalk(t_flag *flag, int *is_start, siginfo_t *siginfo);
 int		check_ascii(char *str);
+void	print_client_msg(pid_t client, int cnt, int is_null);
 
 #endif
