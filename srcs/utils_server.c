@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_server.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 15:50:28 by parkjaekw         #+#    #+#             */
-/*   Updated: 2021/06/25 18:18:09 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 19:59:59 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-void init_flag(t_flag *flag)
+void	init_flag(t_flag *flag)
 {
 	flag->len = 0;
 	flag->total_bit = 0;

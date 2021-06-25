@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 13:58:49 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:20:13 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 20:06:56 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 		return ;
 	if (is_start == 0 && signum == SIGUSR1)
 	{
-		ft_putstr_fd("(null)\n", 1);
+		ft_putstr_fd("\n", 1);
 		return ;
 	}
 	if (is_start == 0)
@@ -43,7 +43,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 		end_minitalk(&flag, &is_start);
 }
 
-int 		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	struct sigaction	action;
 	pid_t				pid;

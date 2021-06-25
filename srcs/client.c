@@ -3,53 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:57:03 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:14:51 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 20:03:12 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
-static void int_to_sig(int cnt, int bit, pid_t server)
+static void	str_to_sig(char *msg, int cnt, pid_t server)
 {
-	if (bit > 0)
-		int_to_sig(cnt / 2, bit - 1, server);
-	if ((cnt % 2) == 1)
+	int	idx;
+	int	bit;
+
+	idx = 0;
+	while (idx < cnt)
 	{
-		if (kill(server, SIGUSR1) == -1)
-			handle_error(SIGNAL_ERR1);
+		bit = 7;
+		while (bit >= 0)
+		{
+			if ((msg[idx] >> bit) & 1)
+				kill(server, SIGUSR1);
+			else
+				kill(server, SIGUSR2);
+			bit--;
+			usleep(100);
+		}
+		idx++;
 	}
-	else if ((cnt % 2) == 0)
-	{
-		if (kill(server, SIGUSR2) == -1)
-			handle_error(SIGNAL_ERR1);
-	}
-	usleep(100);
 }
 
-static void	char_to_sig(char c, int bit, pid_t server)
+static void	len_to_sig(int cnt, pid_t server)
 {
-	if (bit > 0)
-		char_to_sig(c / 2, bit - 1, server);
-	if ((c % 2) == 1)
+	int	bit;
+
+	bit = 31;
+	while (bit >= 0)
 	{
-		if (kill(server, SIGUSR1) == -1)
-			handle_error(SIGNAL_ERR1);
+		if ((cnt >> bit) & 1)
+			kill(server, SIGUSR1);
+		else
+			kill(server, SIGUSR2);
+		bit--;
+		usleep(100);
 	}
-	else if ((c % 2) == 0)
-	{
-		if (kill(server, SIGUSR2) == -1)
-			handle_error(SIGNAL_ERR1);
-	}
-	usleep(500);
 }
 
 static int	send_msg(char *msg, pid_t server)
 {
 	int	i;
-	int cnt;
+	int	cnt;
 
 	i = -1;
 	cnt = ft_strlen(msg);
@@ -62,9 +66,8 @@ static int	send_msg(char *msg, pid_t server)
 	}
 	else
 	{
-		int_to_sig(cnt, 31, server);
-		while (msg[++i] != '\0')
-			char_to_sig(msg[i], 7, server);
+		len_to_sig(cnt, server);
+		str_to_sig(msg, cnt, server);
 		usleep(100);
 	}
 	return (0);
@@ -81,7 +84,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 	}
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	struct sigaction	action;
 	pid_t				server;

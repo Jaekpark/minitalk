@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   client_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:57:03 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:33:53 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 20:03:22 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk_bonus.h"
 
-static void int_to_sig(int cnt, int bit, pid_t server)
+static void	int_to_sig(int cnt, int bit, pid_t server)
 {
 	if (bit > 0)
 		int_to_sig(cnt / 2, bit - 1, server);
@@ -43,13 +43,13 @@ static void	char_to_sig(char c, int bit, pid_t server)
 		if (kill(server, SIGUSR2) == -1)
 			handle_error(SIGNAL_ERR1);
 	}
-	usleep(500);
+	usleep(100);
 }
 
 static int	send_msg(char *msg, pid_t server)
 {
 	int	i;
-	int cnt;
+	int	cnt;
 
 	i = -1;
 	cnt = ft_strlen(msg);
@@ -82,7 +82,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 	}
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	struct sigaction	action;
 	pid_t				server;

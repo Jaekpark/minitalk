@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 13:58:49 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:33:43 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 20:07:12 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	print_pid(pid_t server)
 	write(1, "\n", 1);
 }
 
-static void handle_null(pid_t client)
+static void	handle_null(pid_t client)
 {
 	if ((kill(client, SIGUSR2)) == -1)
 		handle_error(SIGNAL_ERR1);
 	ft_putnbr_fd(client, 1);
-	ft_putstr_fd(" client say > ", 1);	
+	ft_putstr_fd(" client say > ", 1);
 	ft_putstr_fd("(null)\n", 1);
 }
 
@@ -52,7 +52,7 @@ static void	signal_handler(int signum, siginfo_t *siginfo, void *unused)
 		end_minitalk(&flag, &is_start, siginfo);
 }
 
-int 		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	struct sigaction	action;
 	pid_t				pid;

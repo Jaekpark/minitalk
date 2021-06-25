@@ -6,7 +6,7 @@
 /*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 14:40:54 by jaekpark          #+#    #+#             */
-/*   Updated: 2020/10/15 14:57:59 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 19:35:50 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,5 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	if (!s || fd < 0)
 		return ;
-	while (*s)
-	{
-		ft_putchar_fd(*s, fd);
-		s++;
-	}
+	write(fd, s, ft_strlen(s));
 }

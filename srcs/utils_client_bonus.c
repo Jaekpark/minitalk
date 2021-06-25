@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_client_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaekpark <jaekpark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: jaekpark <jaekpark@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/25 17:50:37 by jaekpark          #+#    #+#             */
-/*   Updated: 2021/06/25 18:33:32 by jaekpark         ###   ########.fr       */
+/*   Updated: 2021/06/25 19:59:45 by jaekpark         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_client_msg(pid_t client, int cnt, int is_null)
 	if (is_null == 0)
 		ft_putnbr_fd(cnt, 1);
 	else if (is_null == 1)
-		ft_putstr_fd("Only null", 1);
+		ft_putstr_fd("only null", 1);
 	ft_putstr_fd(" characters.\n", 1);
-	usleep(1000);
+	usleep(100);
 }
